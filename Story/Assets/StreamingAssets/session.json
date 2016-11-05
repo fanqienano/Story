@@ -1,0 +1,20 @@
+[
+    {
+        "activeTime": 0, 
+        "name": "\u5c0f\u96e8", 
+        "isShow": 1, 
+        "avatar": "1.jpg", 
+        "desc": "hello", 
+        "id": 1001, 
+        "isActive": 0
+    }, 
+    {
+        "activeTime": 0, 
+        "name": "\u5c0f\u660e", 
+        "isShow": 1, 
+        "avatar": "2.jpg", 
+        "desc": "world", 
+        "id": 1000, 
+        "isActive": 1
+    }
+]
