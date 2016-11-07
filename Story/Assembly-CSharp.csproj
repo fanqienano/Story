@@ -47,6 +47,8 @@
   <ItemGroup>
      <Compile Include="Assets\Script\Args.cs" />
      <Compile Include="Assets\Script\Constants.cs" />
+     <Compile Include="Assets\Script\DialogInfo.cs" />
+     <Compile Include="Assets\Script\DialogView.cs" />
      <Compile Include="Assets\Script\SQLiteHelper.cs" />
      <Compile Include="Assets\Script\SQLiteUtils.cs" />
      <Compile Include="Assets\Script\SessionInfo.cs" />

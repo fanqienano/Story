@@ -32,6 +32,7 @@ public class SessionInfo {
 		while (reader.Read ()) {
 			sessionList.Add (dataToObject(reader));
 		}
+		sqlUtils.closeConnection ();
 		sessionList.Sort ((x, y) => -(x.isActive.CompareTo(y.isActive)));
 		return sessionList;
 	}
