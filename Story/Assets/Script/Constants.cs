@@ -24,4 +24,5 @@ public class Constants {
 		#endif
 
 	public static readonly string SessionTable = "session";
+	public static readonly string DialogTable = "dialog";
 }

@@ -12,8 +12,6 @@ public class SessionView : MonoBehaviour
 
 	private List<SessionInfo> sessionList;
 
-	private 
-
 	// Use this for initialization
 	void Start ()
 	{
