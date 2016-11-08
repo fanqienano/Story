@@ -3,6 +3,7 @@
 
 import sys
 import pandas
+import numpy
 import json
 
 # class KeyType(object):
@@ -18,10 +19,10 @@ def convertExcelToJson(typeFile, excelFile):
 	del df['value']
 	keys = df.values
 	for i in keys:
-		if i[1].strip().lower() == 'int':
+		if i[1].strip().lower() in ('int', 'long'):
 			keyType[i[0]] = int
 		elif i[1].strip().lower() == 'string':
-			keyType[i[0]] = str
+			keyType[i[0]] = unicode
 	# print keyType
 	edf = pandas.read_excel(excelFile)
 	# print edf
@@ -36,9 +37,15 @@ def convertExcelToJson(typeFile, excelFile):
 				result[int(d)][i] = dfd[i][d]
 	for d in result:
 		for k in d:
-			print k, d[k]
-			d[k] = keyType[k](d[k])
+			if isinstance(d[k], numpy.float) and numpy.isnan(d[k]):
+				if keyType[k] == unicode:
+					d[k] = ''
+				if keyType[k] == int:
+					d[k] = 0
+			else:
+				d[k] = keyType[k](d[k])
 	print json.dumps(result, indent = 4)
+	return result
 
 if __name__ == '__main__':
 	if len(sys.argv) > 2:
