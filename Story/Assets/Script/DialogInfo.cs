@@ -54,7 +54,7 @@ public class DialogInfo
 		return dialogInfo;
 	}
 
-	public static List<DialogInfo> getSessionList ()
+	public static List<DialogInfo> getDialogList ()
 	{
 		List<DialogInfo> dialogList = new List<DialogInfo> ();
 		SQLiteUtils sqlUtils = new SQLiteUtils ();

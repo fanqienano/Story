@@ -1,13 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/DialogView.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/SessionView.cs">
     <Files>
-      <File FileName="Assets/Script/SessionView.cs" Line="9" Column="1" />
-      <File FileName="Assets/Script/DialogView.cs" Line="16" Column="32" />
+      <File FileName="Assets/Script/SessionView.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/DialogView.cs" Line="1" Column="1" />
       <File FileName="Assets/Script/Utils.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/SessionInfo.cs" Line="28" Column="1" />
-      <File FileName="Assets/Script/DialogInfo.cs" Line="56" Column="1" />
-      <File FileName="Assets/Script/Constants.cs" Line="27" Column="53" />
+      <File FileName="Assets/Script/SessionInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/DialogInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/Constants.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

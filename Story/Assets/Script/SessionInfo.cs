@@ -12,6 +12,7 @@ public class SessionInfo {
 	public string desc;
 	public int isShow;
 	public int isActive;
+	public string script;
 
 	public static SessionInfo dataToObject(SqliteDataReader reader){
 		SessionInfo sessionInfo = new SessionInfo ();
@@ -22,6 +23,7 @@ public class SessionInfo {
 		//		sessionInfo.activeTime = long.Parse (jsonData["activeTime"].ToString());
 		sessionInfo.isShow = reader.GetInt16(reader.GetOrdinal("isShow"));
 		sessionInfo.isActive = reader.GetInt16(reader.GetOrdinal("isActive"));
+		sessionInfo.script = reader.GetString(reader.GetOrdinal("script"));
 		return sessionInfo;
 	}
 
