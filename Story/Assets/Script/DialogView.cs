@@ -26,8 +26,7 @@ public class DialogView : MonoBehaviour
 	void Start ()
 	{
 		initObject ();
-//		bigImage.GetComponent<Image> ().sprite = (Sprite)Resources.Load ("59649598_p0", new Sprite ().GetType());
-//		bigImage.GetComponent<Image> ().type = Image.Type.Tiled;
+		loadHistory ();
 		InvokeRepeating ("UpdateDialog", 0, 0.1f);
 	}
 
@@ -46,6 +45,14 @@ public class DialogView : MonoBehaviour
 		bigImage.GetComponent<Button> ().onClick.AddListener (delegate() {
 			this.clickBigImage ();
 		});
+	}
+
+	private void loadHistory()
+	{
+		List<DialogHistoryInfo> historyList = DialogHistoryInfo.getDialogHistoryList();
+		foreach(DialogHistoryInfo di in historyList){
+			if(di.type)
+		}
 	}
 
 	private void UpdateDialog ()
