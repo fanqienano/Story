@@ -17,6 +17,7 @@ public class DialogInfo
 	public string voice;
 	public string video;
 	public string image;
+	public string input;
 	public string option_1_text;
 	public string option_1_script;
 	public int option_1_id;
@@ -41,6 +42,7 @@ public class DialogInfo
 		dialogInfo.voice = reader.GetString (reader.GetOrdinal ("voice"));
 		dialogInfo.video = reader.GetString (reader.GetOrdinal ("video"));
 		dialogInfo.image = reader.GetString (reader.GetOrdinal ("image"));
+		dialogInfo.input = reader.GetString (reader.GetOrdinal("input"));
 		dialogInfo.option_1_text = reader.GetString (reader.GetOrdinal ("option_1_text"));
 		dialogInfo.option_1_script = reader.GetString (reader.GetOrdinal ("option_1_script"));
 		dialogInfo.option_1_id = reader.GetInt16 (reader.GetOrdinal ("option_1_id"));

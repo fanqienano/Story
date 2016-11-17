@@ -19,7 +19,7 @@ public class SessionView : MonoBehaviour
 		sessionList = SessionInfo.getSessionList ();
 		foreach (SessionInfo si in sessionList) {
 			GameObject newSession = (GameObject)Instantiate (session);
-			newSession.name = "111";
+			newSession.name = si.id.ToString();
 			newSession.GetComponent<Button> ().onClick.AddListener(delegate() {
 				this.clickButton (newSession); 
 			});

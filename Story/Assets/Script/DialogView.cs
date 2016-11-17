@@ -20,6 +20,8 @@ public class DialogView : MonoBehaviour
 
 	public GameObject listView;
 
+	private AudioSource audioSource;
+
 	private List<DialogInfo> dialogList;
 
 	// Use this for initialization
@@ -47,16 +49,57 @@ public class DialogView : MonoBehaviour
 		});
 	}
 
-	private void loadHistory()
+	private void loadHistory ()
 	{
-		List<DialogHistoryInfo> historyList = DialogHistoryInfo.getDialogHistoryList();
-		foreach(DialogHistoryInfo di in historyList){
-			if(di.type)
+		List<DialogHistoryInfo> historyList = DialogHistoryInfo.getDialogHistoryList ();
+		foreach (DialogHistoryInfo di in historyList) {
+			if (di.type == "text") {
+				showText (di);
+			} else if (di.type == "voice") {
+				showVoice (di);
+			} else if (di.type == "video") {
+				showVideo (di);
+			} else if (di.type == "image") {
+				showImage (di);
+			} else if (di.type == "send") {
+				showSend (di);
+			}
 		}
 	}
 
 	private void UpdateDialog ()
 	{
+	}
+
+	private void showVideo(DialogInfo dialogInfo){
+	}
+
+	private void showVoice(DialogInfo dialogInfo){
+		GameObject newDialog = (GameObject)Instantiate (dialogItemVoice);
+		newDialog.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog.SetActive (true);
+		newDialog.transform.SetParent (this.listView.transform);
+		newDialog.name = dialogInfo.image.Split ('.') [0];
+		newDialog.GetComponent<Button> ().onClick.AddListener (delegate() {
+			this.clickVoice (newDialog);
+		});
+	}
+
+	private void clickVoice (GameObject newDialog)
+	{
+		if (audioSource.isPlaying){
+			audioSource.Stop();
+		}
+		audioSource.clip = (AudioClip)Resources.Load(newDialog.name, typeof(AudioClip));//调用Resources方法加载AudioClip资源
+		audioSource.Play();
+	}
+
+	private void showSend(DialogInfo dialogInfo){
+		GameObject newDialog = (GameObject)Instantiate (dialogItemSend);
+		newDialog.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog.GetComponentInChildren<Text> ().text = dialogInfo.text;
+		newDialog.SetActive (true);
+		newDialog.transform.SetParent (this.listView.transform);
 	}
 
 	private void showText (DialogInfo dialogInfo)
@@ -82,7 +125,6 @@ public class DialogView : MonoBehaviour
 		newDialog_2.GetComponentInChildren<Image> ().GetComponent<Button> ().onClick.AddListener (delegate() {
 			this.clickImage (newDialog_2);
 		});
-		newDialog_2.GetComponentInChildren<Image> ().GetComponent<Button> ();
 	}
 
 	private void clickImage (GameObject newDialog_2)

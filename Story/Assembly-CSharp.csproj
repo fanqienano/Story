@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Script\Args.cs" />
      <Compile Include="Assets\Script\Constants.cs" />
+     <Compile Include="Assets\Script\DialogHistoryInfo.cs" />
      <Compile Include="Assets\Script\DialogInfo.cs" />
      <Compile Include="Assets\Script\DialogView.cs" />
      <Compile Include="Assets\Script\SQLiteHelper.cs" />
@@ -61,13 +62,13 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/wufan/Unity/Story/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/wufan/__git__/Story/Story/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.Sqlite">
- <HintPath>/Users/wufan/Unity/Story/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
+ <HintPath>/Users/wufan/__git__/Story/Story/Assets/Plugins/Mono.Data.Sqlite.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>/Users/wufan/Unity/Story/Assets/Plugins/System.Data.dll</HintPath>
+ <HintPath>/Users/wufan/__git__/Story/Story/Assets/Plugins/System.Data.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
