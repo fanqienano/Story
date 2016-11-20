@@ -36,11 +36,11 @@ public class DialogHistoryInfo : DialogInfo
 		return dialogInfo;
 	}
 
-	public static List<DialogHistoryInfo> getDialogHistoryList ()
+	public static List<DialogHistoryInfo> getDialogHistoryList (string tableName)
 	{
 		List<DialogHistoryInfo> dialogList = new List<DialogHistoryInfo> ();
 		SQLiteUtils sqlUtils = new SQLiteUtils ();
-		SqliteDataReader reader = sqlUtils.readSql (Constants.DialogTable);
+		SqliteDataReader reader = sqlUtils.readSql (tableName + "_history");
 		while (reader.Read ()) {
 			dialogList.Add (dataToObject (reader));
 		}

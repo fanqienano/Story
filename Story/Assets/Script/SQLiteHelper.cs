@@ -211,4 +211,11 @@ public class SQLiteHelper
 		}
 		return ExecuteQuery (queryString);
 	}
+
+	public SqliteDataReader ReadOne (string tableName, string key, string value)
+	{
+		string queryString = "SELECT * FROM " + tableName + " WHERE " + key + " = " + value;
+		return ExecuteQuery (queryString);
+	}
+
 }

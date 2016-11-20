@@ -12,7 +12,9 @@ public class SessionInfo {
 	public string desc;
 	public int isShow;
 	public int isActive;
-	public string script;
+	public string dialogScript;
+	public int dialogId;
+	public int continueValue;
 
 	public static SessionInfo dataToObject(SqliteDataReader reader){
 		SessionInfo sessionInfo = new SessionInfo ();
@@ -23,7 +25,9 @@ public class SessionInfo {
 		//		sessionInfo.activeTime = long.Parse (jsonData["activeTime"].ToString());
 		sessionInfo.isShow = reader.GetInt16(reader.GetOrdinal("isShow"));
 		sessionInfo.isActive = reader.GetInt16(reader.GetOrdinal("isActive"));
-		sessionInfo.script = reader.GetString(reader.GetOrdinal("script"));
+		sessionInfo.dialogScript = reader.GetString(reader.GetOrdinal("dialogScript"));
+		sessionInfo.dialogId = reader.GetInt16(reader.GetOrdinal("dialogId"));
+		sessionInfo.continueValue = reader.GetInt16(reader.GetOrdinal("continueValue"));
 		return sessionInfo;
 	}
 
@@ -37,5 +41,15 @@ public class SessionInfo {
 		sqlUtils.closeConnection ();
 		sessionList.Sort ((x, y) => -(x.isActive.CompareTo(y.isActive)));
 		return sessionList;
+	}
+
+	public static SessionInfo getSessionInfo(int sessionId){
+		SessionInfo sessionInfo = new SessionInfo ();
+		SQLiteUtils sqlUtils = new SQLiteUtils();
+		SqliteDataReader reader = sqlUtils.findSql (Constants.SessionTable, sessionId);
+		reader.Read ();
+		sessionInfo = dataToObject(reader);
+		sqlUtils.closeConnection ();
+		return sessionInfo;
 	}
 }

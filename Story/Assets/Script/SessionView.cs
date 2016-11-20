@@ -51,14 +51,8 @@ public class SessionView : MonoBehaviour
 	}
 
 	private void clickButton(GameObject newSession){
-		int sessionId = int.Parse (newSession.name);
-		foreach(SessionInfo si in this.sessionList){
-			if (si.id == sessionId) {
-				Args.sessionId = sessionId;
-				Application.LoadLevel("Dialog");
-				break;
-			}
-		}
+		Args.SessionId = int.Parse (newSession.name);
+		Application.LoadLevel("Dialog");
 	}
 	
 	// Update is called once per frame

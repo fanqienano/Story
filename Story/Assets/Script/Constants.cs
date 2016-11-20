@@ -25,4 +25,5 @@ public class Constants {
 
 	public static readonly string SessionTable = "session";
 	public static readonly string DialogTable = "dialog";
+	public static readonly string HistoryTable = "history";
 }

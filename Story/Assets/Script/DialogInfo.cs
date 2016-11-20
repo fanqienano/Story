@@ -12,7 +12,7 @@ public class DialogInfo
 	public string name;
 	public int actorId;
 	public string type;
-	public int delay;
+	public long delay;
 	public string text;
 	public string voice;
 	public string video;
@@ -24,10 +24,11 @@ public class DialogInfo
 	public string option_2_text;
 	public string option_2_script;
 	public int option_2_id;
-	public string continueKey;
+	public int continueKey;
 	public int continueValue;
-	public string actionKey;
+	public int actionKey;
 	public int actionValue;
+	public long activeTime;
 
 	public static DialogInfo dataToObject (SqliteDataReader reader)
 	{
@@ -37,7 +38,7 @@ public class DialogInfo
 		dialogInfo.name = reader.GetString (reader.GetOrdinal ("name"));
 		dialogInfo.actorId = reader.GetInt16 (reader.GetOrdinal ("actorId"));
 		dialogInfo.type = reader.GetString (reader.GetOrdinal ("type"));
-		dialogInfo.delay = reader.GetInt16 (reader.GetOrdinal ("delay"));
+		dialogInfo.delay = (long)reader.GetInt16 (reader.GetOrdinal ("delay"));
 		dialogInfo.text = reader.GetString (reader.GetOrdinal ("text"));
 		dialogInfo.voice = reader.GetString (reader.GetOrdinal ("voice"));
 		dialogInfo.video = reader.GetString (reader.GetOrdinal ("video"));
@@ -49,10 +50,11 @@ public class DialogInfo
 		dialogInfo.option_2_text = reader.GetString (reader.GetOrdinal ("option_2_text"));
 		dialogInfo.option_2_script = reader.GetString (reader.GetOrdinal ("option_2_script"));
 		dialogInfo.option_2_id = reader.GetInt16 (reader.GetOrdinal ("option_2_id"));
-		dialogInfo.continueKey = reader.GetString (reader.GetOrdinal ("continueKey"));
+		dialogInfo.continueKey = reader.GetInt16 (reader.GetOrdinal ("continueKey"));
 		dialogInfo.continueValue = reader.GetInt16 (reader.GetOrdinal ("continueValue"));
-		dialogInfo.actionKey = reader.GetString (reader.GetOrdinal ("actionKey"));
+		dialogInfo.actionKey = reader.GetInt16 (reader.GetOrdinal ("actionKey"));
 		dialogInfo.actionValue = reader.GetInt16 (reader.GetOrdinal ("actionValue"));
+		dialogInfo.activeTime = (long)reader.GetInt16 (reader.GetOrdinal ("activeTime"));
 		return dialogInfo;
 	}
 
@@ -67,6 +69,22 @@ public class DialogInfo
 		sqlUtils.closeConnection ();
 //		dialogList.Sort ((x, y) => -(x.isActive.CompareTo(y.isActive)));
 		return dialogList;
+	}
+
+	public static DialogInfo getDialogInfo(SessionInfo sessionInfo){
+		SQLiteUtils sqlUtils = new SQLiteUtils ();
+		SqliteDataReader reader = sqlUtils.findSql (sessionInfo.dialogScript, sessionInfo.dialogId);
+		reader.Read ();
+		DialogInfo dialogInfo = dataToObject (reader);
+		return dialogInfo;
+	}
+
+	public static DialogInfo getDialogInfo(string dialogScript, int dialogId){
+		SQLiteUtils sqlUtils = new SQLiteUtils ();
+		SqliteDataReader reader = sqlUtils.findSql (dialogScript, dialogId);
+		reader.Read ();
+		DialogInfo dialogInfo = dataToObject (reader);
+		return dialogInfo;
 	}
 
 }

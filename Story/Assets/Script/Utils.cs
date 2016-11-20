@@ -118,11 +118,11 @@ public class Utils {
 //		return 0;
 //	}
 
-//	public static long dataTimeToLong(DateTime dt)
-//	{
-//		DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-//		long timeStamp = (long)(dt - dtStart).TotalMilliseconds;
-//		return timeStamp;
-//	}
+	public static long dataTimeToLong(DateTime dt)
+	{
+		DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+		long timeStamp = (long)(dt - dtStart).TotalMilliseconds;
+		return timeStamp;
+	}
 
 }

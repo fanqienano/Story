@@ -2,5 +2,5 @@
 using System.Collections;
 
 public class Args {
-	public static int sessionId = 0;
+	public static int SessionId = 0;
 }

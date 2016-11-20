@@ -19,6 +19,10 @@ public class SQLiteUtils
 		return sql.ReadFullTable (table);
 	}
 
+	public SqliteDataReader findSql(string table, int id){
+		return sql.ReadOne (table, "id", id.ToString());
+	}
+
 	public void closeConnection(){
 		sql.CloseConnection();
 	}
