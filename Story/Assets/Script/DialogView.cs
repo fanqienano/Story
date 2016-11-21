@@ -187,7 +187,7 @@ public class DialogView : MonoBehaviour
 	private void showSend(DialogInfo dialogInfo){
 		GameObject newDialog = (GameObject)Instantiate (dialogItemSend);
 		newDialog.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog.GetComponentInChildren<Text> ().text = dialogInfo.text;
+		this.autoShowText(newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
 	}
@@ -244,6 +244,14 @@ public class DialogView : MonoBehaviour
 		int lineCount = (int)(text.preferredHeight / height);
 		float posY = 0 - (height / 2f) - 10;
 		text.transform.position = new Vector3 (text.transform.position.x, posY);
+		if (lineCount >= 3){
+			int needMoreCount = Math.Ceiling((float)lineCount / 3f);
+			for (int i = 0; i < needMoreCount; i++){
+				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
+				newDialog.SetActive (true);
+				newDialog.transform.SetParent (this.listView.transform);
+			}
+		}
 	}
 
 }
