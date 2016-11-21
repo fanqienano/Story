@@ -32,6 +32,8 @@ public class DialogView : MonoBehaviour
 
 	private DialogInfo dialogInfo;
 
+	private DialogInfo optionDialogInfo;
+
 	private bool waiting = false;
 
 	// Use this for initialization
@@ -47,7 +49,7 @@ public class DialogView : MonoBehaviour
 	private void UpdateDialog ()
 	{
 		long timeNow = Utils.dataTimeToLong (DateTime.Now);
-		if (dialogInfo.activeTime == 0){
+		if (dialogInfo.activeTime == 0) {
 			dialogInfo.activeTime = timeNow + dialogInfo.delay;
 		}
 //		Debug.Log (dialogInfo.activeTime.ToString() + "|" + timeNow.ToString());
@@ -79,14 +81,16 @@ public class DialogView : MonoBehaviour
 		});
 	}
 
-	private void loadArchive(){
+	private void loadArchive ()
+	{
 		int sessionId = Args.SessionId;
 		sessionInfo = SessionInfo.getSessionInfo (sessionId);
 		Debug.Log (sessionInfo.dialogScript);
 		Debug.Log (sessionInfo.dialogId);
 	}
 
-	private int getContinueValue(int key){
+	private int getContinueValue (int key)
+	{
 		sessionInfo = SessionInfo.getSessionInfo (key);
 		return sessionInfo.continueValue;
 	}
@@ -99,7 +103,8 @@ public class DialogView : MonoBehaviour
 		}
 	}
 
-	private void showView(DialogInfo di){
+	private void showView (DialogInfo di)
+	{
 		if (di.type == "text") {
 			showText (di);
 		} else if (di.type == "voice") {
@@ -115,7 +120,8 @@ public class DialogView : MonoBehaviour
 		}
 	}
 
-	private void showHistoryView(DialogInfo di){
+	private void showHistoryView (DialogInfo di)
+	{
 		if (di.type == "text") {
 			showText (di);
 		} else if (di.type == "voice") {
@@ -129,27 +135,37 @@ public class DialogView : MonoBehaviour
 		}
 	}
 
-	private void showOption(DialogInfo dialogInfo){
-//		this.waiting = true;
+	private void showOption (DialogInfo dialogInfo)
+	{
+		this.waiting = true;
+		this.optionDialogInfo = this.dialogInfo;
 		GameObject newDialog = (GameObject)Instantiate (dialogItemWait);
-		newDialog.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
 		buttonLeft.GetComponentInChildren<Text> ().text = this.dialogInfo.option_1_text;
+		buttonLeft.GetComponent<Button> ().onClick.AddListener (delegate() {
+			this.clickButton (newDialog.GetComponentInChildren<Text> (), this.optionDialogInfo.option_1_script, this.optionDialogInfo.option_1_id, this.optionDialogInfo.option_1_text);
+		});
 		buttonRight.GetComponentInChildren<Text> ().text = this.dialogInfo.option_2_text;
+		buttonRight.GetComponent<Button> ().onClick.AddListener (delegate() {
+			this.clickButton (newDialog.GetComponentInChildren<Text> (), this.optionDialogInfo.option_2_script, this.optionDialogInfo.option_2_id, this.optionDialogInfo.option_2_text);
+		});
 	}
 
-	private void showInput(DialogInfo dialogInfo){
+	private void showInput (DialogInfo dialogInfo)
+	{
 		GameObject newDialog = (GameObject)Instantiate (dialogItemInput);
-		newDialog.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
 	}
 
-	private void showVideo(DialogInfo dialogInfo){
+	private void showVideo (DialogInfo dialogInfo)
+	{
 		GameObject newDialog_1 = (GameObject)Instantiate (dialogItemImage_1);
 		GameObject newDialog_2 = (GameObject)Instantiate (dialogItemImage_2);
-		newDialog_1.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog_1.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog_2.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.image.Split ('.') [0], new Sprite ().GetType ());
 		newDialog_1.SetActive (true);
 		newDialog_1.transform.SetParent (this.listView.transform);
@@ -161,9 +177,10 @@ public class DialogView : MonoBehaviour
 		});
 	}
 
-	private void showVoice(DialogInfo dialogInfo){
+	private void showVoice (DialogInfo dialogInfo)
+	{
 		GameObject newDialog = (GameObject)Instantiate (dialogItemVoice);
-		newDialog.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
 		newDialog.name = dialogInfo.voice.Split ('.') [0];
@@ -174,31 +191,33 @@ public class DialogView : MonoBehaviour
 
 	private void clickVoice (GameObject newDialog)
 	{
-		if (audioSource.isPlaying){
-			audioSource.Stop();
+		if (audioSource.isPlaying) {
+			audioSource.Stop ();
 		}
-		audioSource.clip = (AudioClip)Resources.Load(newDialog.name, typeof(AudioClip));//调用Resources方法加载AudioClip资源
-		audioSource.Play();
+		audioSource.clip = (AudioClip)Resources.Load (newDialog.name, typeof(AudioClip));//调用Resources方法加载AudioClip资源
+		audioSource.Play ();
 	}
 
-	private void clickVideo(GameObject newDialog_2){
+	private void clickVideo (GameObject newDialog_2)
+	{
 	}
 
-	private void showSend(DialogInfo dialogInfo){
+	private void showSend (DialogInfo dialogInfo)
+	{
 		GameObject newDialog = (GameObject)Instantiate (dialogItemSend);
-		newDialog.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		this.autoShowText(newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
+		this.autoShowText (newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
 	}
 
 	private void showText (DialogInfo dialogInfo)
 	{
 		GameObject newDialog = (GameObject)Instantiate (dialogItemText);
-		newDialog.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		this.autoShowText (newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
+		this.autoShowText (newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
 
 //		Debug.Log (newDialog.GetComponentInChildren<Text> ().transform.position.y);
 //		Debug.Log (newDialog.GetComponentInChildren<Text> ().rectTransform.rect.height);
@@ -208,7 +227,7 @@ public class DialogView : MonoBehaviour
 	{
 		GameObject newDialog_1 = (GameObject)Instantiate (dialogItemImage_1);
 		GameObject newDialog_2 = (GameObject)Instantiate (dialogItemImage_2);
-		newDialog_1.GetComponentsInChildren<Image> ()[1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog_1.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog_2.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.image.Split ('.') [0], new Sprite ().GetType ());
 		newDialog_1.SetActive (true);
 		newDialog_1.transform.SetParent (this.listView.transform);
@@ -231,22 +250,28 @@ public class DialogView : MonoBehaviour
 		bigImage.SetActive (false);
 	}
 
+	private void clickButton(Text text, string script, int id, string content){
+		text.text = content;
+		this.waiting = false;
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
 	
 	}
 
-	private void autoShowText(Text text, string content){
+	private void autoShowText (Text text, string content)
+	{
 		text.text = "";
 		float height = text.preferredHeight;
-		text.text = dialogInfo.text + dialogInfo.text + dialogInfo.text;
+		text.text = content;
 		int lineCount = (int)(text.preferredHeight / height);
 		float posY = 0 - (height / 2f) - 10;
 		text.transform.position = new Vector3 (text.transform.position.x, posY);
-		if (lineCount >= 3){
-			int needMoreCount = Math.Ceiling((float)lineCount / 3f);
-			for (int i = 0; i < needMoreCount; i++){
+		if (lineCount >= 3) {
+			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f) - 1;
+			for (int i = 0; i < needMoreCount; i++) {
 				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
 				newDialog.SetActive (true);
 				newDialog.transform.SetParent (this.listView.transform);
