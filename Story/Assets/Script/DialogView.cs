@@ -253,6 +253,8 @@ public class DialogView : MonoBehaviour
 	private void clickButton(Text text, string script, int id, string content){
 		text.text = content;
 		this.waiting = false;
+		buttonLeft.GetComponent<Button> ().onClick.RemoveAllListeners ();
+		buttonRight.GetComponent<Button> ().onClick.RemoveAllListeners ();
 	}
 
 	// Update is called once per frame
@@ -271,6 +273,9 @@ public class DialogView : MonoBehaviour
 		text.transform.position = new Vector3 (text.transform.position.x, posY);
 		if (lineCount >= 3) {
 			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f) - 1;
+			if (needMoreCount == 0) {
+				needMoreCount = 1;
+			}
 			for (int i = 0; i < needMoreCount; i++) {
 				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
 				newDialog.SetActive (true);
