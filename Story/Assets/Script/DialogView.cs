@@ -36,6 +36,10 @@ public class DialogView : MonoBehaviour
 
 	private bool waiting = false;
 
+	private int itemCount = 0;
+
+	private int baseItemCount = 10;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -105,6 +109,7 @@ public class DialogView : MonoBehaviour
 
 	private void showView (DialogInfo di)
 	{
+//		listView.transform.position = new Vector3(listView.transform.position.x, 99999);
 		if (di.type == "text") {
 			showText (di);
 		} else if (di.type == "voice") {
@@ -118,6 +123,8 @@ public class DialogView : MonoBehaviour
 		} else if (di.type == "input") {
 			showInput (di);
 		}
+		itemCount = listView.transform.childCount - baseItemCount;
+//		listView.transform.position = new Vector3(listView.transform.position.x, 99999);
 	}
 
 	private void showHistoryView (DialogInfo di)
@@ -208,7 +215,7 @@ public class DialogView : MonoBehaviour
 		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
-		this.autoShowText (newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
+		this.autoShowText (newDialog, dialogInfo.text);
 	}
 
 	private void showText (DialogInfo dialogInfo)
@@ -217,7 +224,7 @@ public class DialogView : MonoBehaviour
 		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog.SetActive (true);
 		newDialog.transform.SetParent (this.listView.transform);
-		this.autoShowText (newDialog.GetComponentInChildren<Text> (), dialogInfo.text);
+		this.autoShowText (newDialog, dialogInfo.text);
 
 //		Debug.Log (newDialog.GetComponentInChildren<Text> ().transform.position.y);
 //		Debug.Log (newDialog.GetComponentInChildren<Text> ().rectTransform.rect.height);
@@ -263,14 +270,19 @@ public class DialogView : MonoBehaviour
 	
 	}
 
-	private void autoShowText (Text text, string content)
+	private void autoShowText (GameObject gameObj, string content)
 	{
+		Image img = gameObj.GetComponentsInChildren<Image> () [3];
+		Text text = gameObj.GetComponentInChildren<Text> ();
 		text.text = "";
 		float height = text.preferredHeight;
 		text.text = content;
 		int lineCount = (int)(text.preferredHeight / height);
 		float posY = 0 - (height / 2f) - 10;
 		text.transform.position = new Vector3 (text.transform.position.x, posY);
+		Debug.Log (text.preferredWidth);
+		Debug.Log (text.preferredHeight);
+		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (text.preferredWidth, text.preferredHeight + 20f);
 		if (lineCount >= 3) {
 			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f) - 1;
 			if (needMoreCount == 0) {
