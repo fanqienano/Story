@@ -152,11 +152,11 @@ public class DialogView : MonoBehaviour
 		newDialog.transform.SetParent (this.listView.transform);
 		buttonLeft.GetComponentInChildren<Text> ().text = this.dialogInfo.option_1_text;
 		buttonLeft.GetComponent<Button> ().onClick.AddListener (delegate() {
-			this.clickButton (newDialog.GetComponentInChildren<Text> (), this.optionDialogInfo.option_1_script, this.optionDialogInfo.option_1_id, this.optionDialogInfo.option_1_text);
+			this.clickButton (newDialog, this.optionDialogInfo.option_1_script, this.optionDialogInfo.option_1_id, this.optionDialogInfo.option_1_text);
 		});
 		buttonRight.GetComponentInChildren<Text> ().text = this.dialogInfo.option_2_text;
 		buttonRight.GetComponent<Button> ().onClick.AddListener (delegate() {
-			this.clickButton (newDialog.GetComponentInChildren<Text> (), this.optionDialogInfo.option_2_script, this.optionDialogInfo.option_2_id, this.optionDialogInfo.option_2_text);
+			this.clickButton (newDialog, this.optionDialogInfo.option_2_script, this.optionDialogInfo.option_2_id, this.optionDialogInfo.option_2_text);
 		});
 	}
 
@@ -257,8 +257,9 @@ public class DialogView : MonoBehaviour
 		bigImage.SetActive (false);
 	}
 
-	private void clickButton(Text text, string script, int id, string content){
-		text.text = content;
+	private void clickButton(GameObject newDialog, string script, int id, string content){
+//		text.text = content;
+		this.autoSendText(newDialog, content);
 		this.waiting = false;
 		buttonLeft.GetComponent<Button> ().onClick.RemoveAllListeners ();
 		buttonRight.GetComponent<Button> ().onClick.RemoveAllListeners ();
@@ -274,20 +275,56 @@ public class DialogView : MonoBehaviour
 	{
 		Image img = gameObj.GetComponentsInChildren<Image> () [3];
 		Text text = gameObj.GetComponentInChildren<Text> ();
-		text.text = "";
+		text.text = "阿";
 		float height = text.preferredHeight;
+		float width = text.preferredWidth;
 		text.text = content;
 		int lineCount = (int)(text.preferredHeight / height);
+		if (lineCount > 1) {
+			width = width * 7;
+		} else {
+			width = text.preferredWidth;
+		}
 		float posY = 0 - (height / 2f) - 10;
-		text.transform.position = new Vector3 (text.transform.position.x, posY);
-		Debug.Log (text.preferredWidth);
-		Debug.Log (text.preferredHeight);
-		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (text.preferredWidth, text.preferredHeight + 20f);
+		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width + 20f, text.preferredHeight + 20f);
 		if (lineCount >= 3) {
-			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f) - 1;
-			if (needMoreCount == 0) {
-				needMoreCount = 1;
+			lineCount = lineCount - 2;
+			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f);
+//			if (needMoreCount == 0) {
+//				needMoreCount = 1;
+//			}
+			for (int i = 0; i < needMoreCount; i++) {
+				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
+				newDialog.SetActive (true);
+				newDialog.transform.SetParent (this.listView.transform);
 			}
+		}
+	}
+
+
+	private void autoSendText (GameObject gameObj, string content)
+	{
+		Image img = gameObj.GetComponentsInChildren<Image> () [3];
+		Text text = gameObj.GetComponentInChildren<Text> ();
+		text.text = "阿";
+		float height = text.preferredHeight;
+		float width = text.preferredWidth;
+		text.text = content;
+		int lineCount = (int)(text.preferredHeight / height);
+		if (lineCount > 1) {
+			width = width * 7;
+		} else {
+			text.alignment = TextAnchor.UpperLeft;
+			width = text.preferredWidth;
+		}
+		float posY = 0 - (height / 2f) - 10;
+		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width + 20f, text.preferredHeight + 20f);
+		if (lineCount >= 3) {
+			lineCount = lineCount - 2;
+			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f);
+			//			if (needMoreCount == 0) {
+			//				needMoreCount = 1;
+			//			}
 			for (int i = 0; i < needMoreCount; i++) {
 				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
 				newDialog.SetActive (true);

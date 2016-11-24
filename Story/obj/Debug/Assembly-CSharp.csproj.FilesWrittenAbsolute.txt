@@ -1,0 +1,16 @@
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/UnityEngine.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/UnityEditor.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/LitJson.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Mono.Data.Sqlite.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/System.Data.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Mono.Cecil.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Unity.DataContract.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Mono.Cecil.Mdb.dll
