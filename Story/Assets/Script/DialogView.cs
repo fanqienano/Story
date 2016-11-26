@@ -7,16 +7,14 @@ using UnityEngine.UI;
 public class DialogView : MonoBehaviour
 {
 
-	public GameObject dialogItemText;
-	public GameObject dialogItemImage_1;
-	public GameObject dialogItemImage_2;
-	public GameObject dialogItemVideo_1;
-	public GameObject dialogItemVideo_2;
-	public GameObject dialogItemVoice;
-	public GameObject dialogItemSend;
-	public GameObject dialogItemWait;
-	public GameObject dialogItemInput;
-	public GameObject dialogItemTextMore;
+	public List<GameObject> dialogItemText = new List<GameObject> ();
+	public List<GameObject> dialogItemImage = new List<GameObject> ();
+	public List<GameObject> dialogItemVideo = new List<GameObject> ();
+	public List<GameObject> dialogItemVoice = new List<GameObject> ();
+	public List<GameObject> dialogItemSend = new List<GameObject> ();
+	public List<GameObject> dialogItemWait = new List<GameObject> ();
+	public List<GameObject> dialogItemInput = new List<GameObject> ();
+	public GameObject dialogItemMore;
 	public GameObject bigImage;
 
 	public GameObject listView;
@@ -39,6 +37,8 @@ public class DialogView : MonoBehaviour
 	private int itemCount = 0;
 
 	private int baseItemCount = 10;
+
+	private int baseItemSize = 5;
 
 	// Use this for initialization
 	void Start ()
@@ -69,20 +69,29 @@ public class DialogView : MonoBehaviour
 
 	private void initObject ()
 	{
-		dialogItemTextMore.SetActive (false);
-		dialogItemText.SetActive (false);
-		dialogItemImage_1.SetActive (false);
-		dialogItemImage_2.SetActive (false);
-		dialogItemVideo_1.SetActive (false);
-		dialogItemVideo_2.SetActive (false);
-		dialogItemVoice.SetActive (false);
-		dialogItemSend.SetActive (false);
-		dialogItemWait.SetActive (false);
-		dialogItemInput.SetActive (false);
+		dialogItemMore.SetActive (false);
+		initGameObj (dialogItemText);
+		initGameObj (dialogItemImage);
+		initGameObj (dialogItemVideo);
+		initGameObj (dialogItemVoice);
+		initGameObj (dialogItemSend);
+		initGameObj (dialogItemWait);
+		initGameObj (dialogItemInput);
 		bigImage.SetActive (false);
 		bigImage.GetComponent<Button> ().onClick.AddListener (delegate() {
 			this.clickBigImage ();
 		});
+	}
+
+	private void initGameObj(List<GameObject> objList){
+		int size = this.baseItemSize - objList.Count;
+		for (int i = 0; i < size; i++) {
+			GameObject c = (GameObject)Instantiate (dialogItemMore);
+			objList.Add (c);
+		}
+		foreach (GameObject i in objList){
+			i.SetActive (false);
+		}
 	}
 
 	private void loadArchive ()
@@ -146,10 +155,10 @@ public class DialogView : MonoBehaviour
 	{
 		this.waiting = true;
 		this.optionDialogInfo = this.dialogInfo;
-		GameObject newDialog = (GameObject)Instantiate (dialogItemWait);
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemWait);
+		GameObject newDialog = newGameObjList[0];
 		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog.SetActive (true);
-		newDialog.transform.SetParent (this.listView.transform);
+		this.Show (newGameObjList);
 		buttonLeft.GetComponentInChildren<Text> ().text = this.dialogInfo.option_1_text;
 		buttonLeft.GetComponent<Button> ().onClick.AddListener (delegate() {
 			this.clickButton (newDialog, this.optionDialogInfo.option_1_script, this.optionDialogInfo.option_1_id, this.optionDialogInfo.option_1_text);
@@ -162,22 +171,20 @@ public class DialogView : MonoBehaviour
 
 	private void showInput (DialogInfo dialogInfo)
 	{
-		GameObject newDialog = (GameObject)Instantiate (dialogItemInput);
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemInput);
+		GameObject newDialog = newGameObjList[0];
 		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog.SetActive (true);
-		newDialog.transform.SetParent (this.listView.transform);
+		this.Show (newGameObjList);
 	}
 
 	private void showVideo (DialogInfo dialogInfo)
 	{
-		GameObject newDialog_1 = (GameObject)Instantiate (dialogItemImage_1);
-		GameObject newDialog_2 = (GameObject)Instantiate (dialogItemImage_2);
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemImage);
+		GameObject newDialog_1 = newGameObjList[0];
+		GameObject newDialog_2 = newGameObjList[1];
 		newDialog_1.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
 		newDialog_2.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.image.Split ('.') [0], new Sprite ().GetType ());
-		newDialog_1.SetActive (true);
-		newDialog_1.transform.SetParent (this.listView.transform);
-		newDialog_2.SetActive (true);
-		newDialog_2.transform.SetParent (this.listView.transform);
+		this.Show (newGameObjList);
 		newDialog_2.name = dialogInfo.video.Split ('.') [0];
 		newDialog_2.GetComponentInChildren<Image> ().GetComponent<Button> ().onClick.AddListener (delegate() {
 			this.clickVideo (newDialog_2);
@@ -186,13 +193,45 @@ public class DialogView : MonoBehaviour
 
 	private void showVoice (DialogInfo dialogInfo)
 	{
-		GameObject newDialog = (GameObject)Instantiate (dialogItemVoice);
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemVoice);
+		GameObject newDialog = newGameObjList[0];
 		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog.SetActive (true);
-		newDialog.transform.SetParent (this.listView.transform);
+		this.Show (newGameObjList);
 		newDialog.name = dialogInfo.voice.Split ('.') [0];
 		newDialog.GetComponent<Button> ().onClick.AddListener (delegate() {
 			this.clickVoice (newDialog);
+		});
+	}
+
+	private void showSend (DialogInfo dialogInfo)
+	{
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemSend);
+		GameObject newDialog = newGameObjList[0];
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		this.Show (newGameObjList);
+		this.autoShowText (newDialog, dialogInfo.text);
+	}
+
+	private void showText (DialogInfo dialogInfo)
+	{
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemText);
+		GameObject newDialog = newGameObjList[0];
+		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		this.Show (newGameObjList);
+		this.autoShowText (newDialog, dialogInfo.text);
+	}
+
+	private void showImage (DialogInfo dialogInfo)
+	{
+		List<GameObject> newGameObjList = this.CopyGameObject (dialogItemImage);
+		GameObject newDialog_1 = newGameObjList[0];
+		GameObject newDialog_2 = newGameObjList[1];
+		newDialog_1.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
+		newDialog_2.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.image.Split ('.') [0], new Sprite ().GetType ());
+		this.Show (newGameObjList);
+		newDialog_2.name = dialogInfo.image.Split ('.') [0];
+		newDialog_2.GetComponentInChildren<Image> ().GetComponent<Button> ().onClick.AddListener (delegate() {
+			this.clickImage (newDialog_2);
 		});
 	}
 
@@ -207,43 +246,6 @@ public class DialogView : MonoBehaviour
 
 	private void clickVideo (GameObject newDialog_2)
 	{
-	}
-
-	private void showSend (DialogInfo dialogInfo)
-	{
-		GameObject newDialog = (GameObject)Instantiate (dialogItemSend);
-		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog.SetActive (true);
-		newDialog.transform.SetParent (this.listView.transform);
-		this.autoShowText (newDialog, dialogInfo.text);
-	}
-
-	private void showText (DialogInfo dialogInfo)
-	{
-		GameObject newDialog = (GameObject)Instantiate (dialogItemText);
-		newDialog.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog.SetActive (true);
-		newDialog.transform.SetParent (this.listView.transform);
-		this.autoShowText (newDialog, dialogInfo.text);
-
-//		Debug.Log (newDialog.GetComponentInChildren<Text> ().transform.position.y);
-//		Debug.Log (newDialog.GetComponentInChildren<Text> ().rectTransform.rect.height);
-	}
-
-	private void showImage (DialogInfo dialogInfo)
-	{
-		GameObject newDialog_1 = (GameObject)Instantiate (dialogItemImage_1);
-		GameObject newDialog_2 = (GameObject)Instantiate (dialogItemImage_2);
-		newDialog_1.GetComponentsInChildren<Image> () [1].sprite = (Sprite)Resources.Load (dialogInfo.avatar.Split ('.') [0], new Sprite ().GetType ());
-		newDialog_2.GetComponentInChildren<Image> ().sprite = (Sprite)Resources.Load (dialogInfo.image.Split ('.') [0], new Sprite ().GetType ());
-		newDialog_1.SetActive (true);
-		newDialog_1.transform.SetParent (this.listView.transform);
-		newDialog_2.SetActive (true);
-		newDialog_2.transform.SetParent (this.listView.transform);
-		newDialog_2.name = dialogInfo.image.Split ('.') [0];
-		newDialog_2.GetComponentInChildren<Image> ().GetComponent<Button> ().onClick.AddListener (delegate() {
-			this.clickImage (newDialog_2);
-		});
 	}
 
 	private void clickImage (GameObject newDialog_2)
@@ -285,7 +287,6 @@ public class DialogView : MonoBehaviour
 		} else {
 			width = text.preferredWidth;
 		}
-		float posY = 0 - (height / 2f) - 10;
 		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width + 20f, text.preferredHeight + 20f);
 		if (lineCount >= 3) {
 			lineCount = lineCount - 2;
@@ -294,7 +295,7 @@ public class DialogView : MonoBehaviour
 //				needMoreCount = 1;
 //			}
 			for (int i = 0; i < needMoreCount; i++) {
-				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
+				GameObject newDialog = (GameObject)Instantiate (dialogItemMore);
 				newDialog.SetActive (true);
 				newDialog.transform.SetParent (this.listView.transform);
 			}
@@ -314,10 +315,9 @@ public class DialogView : MonoBehaviour
 		if (lineCount > 1) {
 			width = width * 7;
 		} else {
-			text.alignment = TextAnchor.UpperLeft;
+			text.alignment = TextAnchor.UpperRight;
 			width = text.preferredWidth;
 		}
-		float posY = 0 - (height / 2f) - 10;
 		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width + 20f, text.preferredHeight + 20f);
 		if (lineCount >= 3) {
 			lineCount = lineCount - 2;
@@ -326,11 +326,36 @@ public class DialogView : MonoBehaviour
 			//				needMoreCount = 1;
 			//			}
 			for (int i = 0; i < needMoreCount; i++) {
-				GameObject newDialog = (GameObject)Instantiate (dialogItemTextMore);
+				GameObject newDialog = (GameObject)Instantiate (dialogItemMore);
 				newDialog.SetActive (true);
 				newDialog.transform.SetParent (this.listView.transform);
 			}
 		}
 	}
 
+	private void SetActive(List<GameObject> gameObjList, bool status){
+		foreach (GameObject i in gameObjList){
+			i.SetActive (status);
+		}
+	}
+
+	private void SetParent(List<GameObject> gameObjList, Transform transform){
+		foreach (GameObject i in gameObjList){
+				i.transform.SetParent (transform);
+		}
+	}
+
+	private List<GameObject> CopyGameObject(List<GameObject> gameObjList){
+		List<GameObject> copyList = new List<GameObject> ();
+		foreach (GameObject i in gameObjList){
+			GameObject c = (GameObject)Instantiate (i);
+			copyList.Add (c);
+		}
+		return copyList;
+	}
+
+	private void Show(List<GameObject> gameObjList){
+		SetActive (gameObjList, true);
+		SetParent (gameObjList, this.listView.transform);
+	}
 }

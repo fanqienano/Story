@@ -14,3 +14,7 @@
 /Users/wufan/__git__/Story/Story/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/wufan/__git__/Story/Story/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/wufan/__git__/Story/Story/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/wufan/__git__/Story/Story/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/wufan/__git__/Story/Story/obj/Debug/Assembly-CSharp.dll
+/Users/wufan/__git__/Story/Story/obj/Debug/Assembly-CSharp.dll.mdb
