@@ -54,13 +54,14 @@ public class DialogHistoryInfo : DialogInfo
 		SQLiteUtils sqlUtils = new SQLiteUtils ();
 		string[] keys = new string[di.GetType ().GetProperties ().Length];
 		for (int i = 0; i < di.GetType ().GetProperties ().Length; i++) {
-			PropertyInfo pi = di.GetType ().GetProperties () [0];
+			PropertyInfo pi = di.GetType ().GetProperties () [i];
 			keys [i] = pi.Name;
 		}
 		string[] values = new string[di.GetType ().GetProperties ().Length];
 		for (int i = 0; i < di.GetType ().GetProperties ().Length; i++) {
-			PropertyInfo pi = di.GetType ().GetProperties () [0];
-			values [i] = pi.GetValue(keys[i], null);
+			PropertyInfo p = di.GetType ().GetProperties () [i];
+			PropertyInfo pi = di.GetType ().GetProperty (p.Name);
+			values [i] = pi.GetValue(pi, null).ToString();
 		}
 		sqlUtils.writeHistory (Constants.HistoryTable, keys, values);
 		sqlUtils.closeConnection ();
