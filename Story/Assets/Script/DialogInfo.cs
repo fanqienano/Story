@@ -7,28 +7,28 @@ using Mono.Data.Sqlite;
 
 public class DialogInfo
 {
-	public int id;
-	public string avatar;
-	public string name;
-	public int actorId;
-	public string type;
-	public long delay;
-	public string text;
-	public string voice;
-	public string video;
-	public string image;
-	public string input;
-	public string option_1_text;
-	public string option_1_script;
-	public int option_1_id;
-	public string option_2_text;
-	public string option_2_script;
-	public int option_2_id;
-	public int continueKey;
-	public int continueValue;
-	public int actionKey;
-	public int actionValue;
-	public long activeTime;
+	public int id { get; set; }
+	public string avatar { get; set; }
+	public string name { get; set; }
+	public int actorId { get; set; }
+	public string type { get; set; }
+	public long delay { get; set; }
+	public string text { get; set; }
+	public string voice { get; set; }
+	public string video { get; set; }
+	public string image { get; set; }
+	public string input { get; set; }
+	public string option_1_text { get; set; }
+	public string option_1_script { get; set; }
+	public int option_1_id { get; set; }
+	public string option_2_text { get; set; }
+	public string option_2_script { get; set; }
+	public int option_2_id { get; set; }
+	public int continueKey { get; set; }
+	public int continueValue { get; set; }
+	public int actionKey { get; set; }
+	public int actionValue { get; set; }
+	public long activeTime { get; set; }
 
 	public static DialogInfo dataToObject (SqliteDataReader reader)
 	{

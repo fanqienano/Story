@@ -6,15 +6,15 @@ using System.IO;
 using Mono.Data.Sqlite;
 
 public class SessionInfo {
-	public int id;
-	public string name;
-	public string avatar;
-	public string desc;
-	public int isShow;
-	public int isActive;
-	public string dialogScript;
-	public int dialogId;
-	public int continueValue;
+	public int id { get; set; }
+	public string name { get; set; }
+	public string avatar { get; set; }
+	public string desc { get; set; }
+	public int isShow { get; set; }
+	public int isActive { get; set; }
+	public string dialogScript { get; set; }
+	public int dialogId { get; set; }
+	public int continueValue { get; set; }
 
 	public static SessionInfo dataToObject(SqliteDataReader reader){
 		SessionInfo sessionInfo = new SessionInfo ();

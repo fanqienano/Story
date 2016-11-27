@@ -108,6 +108,33 @@ public class SQLiteHelper
 	}
 
 	/// <summary>
+	/// 向指定数据表中插入数据
+	/// </summary>
+	/// <returns>The values.</returns>
+	/// <param name="tableName">数据表名称</param>
+	/// <param name="values">插入的数值</param>
+	public SqliteDataReader InsertValues (string tableName, string[] keys, string[] values)
+	{
+		//获取数据表中字段数目
+		int fieldCount = ReadFullTable (tableName).FieldCount;
+		//当插入的数据长度不等于字段数目时引发异常
+		if (values.Length != fieldCount) {
+			throw new SqliteException ("values.Length!=fieldCount");
+		}
+		string keysStr = " (" + keys[0];
+		for (int i = 1; i < values.Length; i++) {
+			keysStr += ", " + keys [i];
+		}
+		keysStr += " )";
+		string queryString = "INSERT INTO " + tableName + keysStr + " VALUES (" + values [0];
+		for (int i = 1; i < values.Length; i++) {
+			queryString += ", " + values [i];
+		}
+		queryString += " )";
+		return ExecuteQuery (queryString);
+	}
+
+	/// <summary>
 	/// 更新指定数据表内的数据
 	/// </summary>
 	/// <returns>The values.</returns>

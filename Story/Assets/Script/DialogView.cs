@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Reflection;
 
 public class DialogView : MonoBehaviour
 {
@@ -118,6 +119,7 @@ public class DialogView : MonoBehaviour
 
 	private void showView (DialogInfo di)
 	{
+		Debug.Log(di.GetType().GetProperties()[0].Name);
 //		listView.transform.position = new Vector3(listView.transform.position.x, 99999);
 		if (di.type == "text") {
 			showText (di);
