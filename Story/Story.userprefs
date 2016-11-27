@@ -4,7 +4,7 @@
     <Files>
       <File FileName="Assets/Script/DialogView.cs" Line="321" Column="1" />
       <File FileName="Assets/Script/Utils.cs" Line="1" Column="1" />
-      <File FileName="Assets/Script/SessionInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/SessionInfo.cs" Line="16" Column="22" />
       <File FileName="Assets/Script/DialogInfo.cs" Line="1" Column="1" />
       <File FileName="Assets/Script/Constants.cs" Line="1" Column="1" />
       <File FileName="Assets/Script/DialogHistoryInfo.cs" Line="1" Column="1" />

@@ -38,7 +38,7 @@ public class DialogView : MonoBehaviour
 
 	private int baseItemCount = 10;
 
-	private int baseItemSize = 5;
+	private int baseItemSize = 10;
 
 	// Use this for initialization
 	void Start ()
@@ -288,9 +288,11 @@ public class DialogView : MonoBehaviour
 			width = text.preferredWidth;
 		}
 		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width + 20f, text.preferredHeight + 20f);
-		if (lineCount >= 3) {
-			lineCount = lineCount - 2;
-			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f);
+		if (lineCount > 1) {
+			int needMoreCount = lineCount - 1;
+			needMoreCount = needMoreCount * 2;
+//			lineCount = lineCount - 2;
+//			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f);
 //			if (needMoreCount == 0) {
 //				needMoreCount = 1;
 //			}
@@ -319,9 +321,11 @@ public class DialogView : MonoBehaviour
 			width = text.preferredWidth;
 		}
 		img.gameObject.GetComponent<RectTransform> ().sizeDelta = new Vector2 (width + 20f, text.preferredHeight + 20f);
-		if (lineCount >= 3) {
-			lineCount = lineCount - 2;
-			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f);
+		if (lineCount > 1) {
+			int needMoreCount = lineCount - 1;
+			needMoreCount = needMoreCount * 2;
+//			lineCount = lineCount - 2;
+//			int needMoreCount = (int)Math.Ceiling ((float)lineCount / 3f);
 			//			if (needMoreCount == 0) {
 			//				needMoreCount = 1;
 			//			}
