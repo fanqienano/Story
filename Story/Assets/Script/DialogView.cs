@@ -18,6 +18,10 @@ public class DialogView : MonoBehaviour
 	public GameObject dialogItemMore;
 	public GameObject bigImage;
 
+	public Scrollbar scrollBar;
+
+	public bool isScroll = false;
+
 	public GameObject listView;
 
 	public Button buttonLeft;
@@ -35,11 +39,11 @@ public class DialogView : MonoBehaviour
 
 	private bool waiting = false;
 
-	private int itemCount = 0;
+	private float listViewSize = 0;
 
 	private int baseItemCount = 10;
 
-	private int baseItemSize = 10;
+	private int baseItemSize = 10; //标准item行数；
 
 	// Use this for initialization
 	void Start ()
@@ -48,7 +52,8 @@ public class DialogView : MonoBehaviour
 		loadArchive ();
 		loadHistory ();
 		dialogInfo = DialogInfo.getDialogInfo (this.sessionInfo);
-		InvokeRepeating ("UpdateDialog", 0, 1f);
+		InvokeRepeating ("UpdateDialog", 0, 0.1f);
+		InvokeRepeating ("AutoScroll", 0, 0.05f);
 	}
 
 	private void UpdateDialog ()
@@ -59,12 +64,24 @@ public class DialogView : MonoBehaviour
 		}
 //		Debug.Log (dialogInfo.activeTime.ToString() + "|" + timeNow.ToString());
 //		Debug.Log (dialogInfo.continueKey.ToString() + "|" + dialogInfo.continueValue.ToString());
-		if (dialogInfo.activeTime <= timeNow && !this.waiting) {
-			int value = getContinueValue (dialogInfo.continueKey);
-			if (dialogInfo.continueValue == value) {
-				this.showView (dialogInfo);
-				dialogInfo = DialogInfo.getDialogInfo (this.sessionInfo.dialogScript, dialogInfo.id + 1);
+		if (!this.waiting) {
+			this.isScroll = true;
+			if (dialogInfo.activeTime <= timeNow) {
+				int value = getContinueValue (dialogInfo.continueKey);
+				if (dialogInfo.continueValue == value) {
+					this.showView (dialogInfo);
+					dialogInfo = DialogInfo.getDialogInfo (this.sessionInfo.dialogScript, dialogInfo.id + 1);
+				}
 			}
+		}
+	}
+
+	private void AutoScroll(){
+		if (this.isScroll) {
+			scrollBar.value = scrollBar.value - 0.1f;
+		}
+		if (scrollBar.value == 0) {
+			this.isScroll = false;
 		}
 	}
 
@@ -119,7 +136,7 @@ public class DialogView : MonoBehaviour
 
 	private void showView (DialogInfo di)
 	{
-		Debug.Log(di.GetType().GetProperties()[0].Name);
+//		Debug.Log(di.GetType().GetProperties()[0].Name);
 //		listView.transform.position = new Vector3(listView.transform.position.x, 99999);
 		if (di.type == "text") {
 			showText (di);
@@ -134,8 +151,6 @@ public class DialogView : MonoBehaviour
 		} else if (di.type == "input") {
 			showInput (di);
 		}
-		itemCount = listView.transform.childCount - baseItemCount;
-//		listView.transform.position = new Vector3(listView.transform.position.x, 99999);
 	}
 
 	private void showHistoryView (DialogInfo di)
@@ -272,7 +287,6 @@ public class DialogView : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
 	}
 
 	private void autoShowText (GameObject gameObj, string content)
@@ -347,7 +361,7 @@ public class DialogView : MonoBehaviour
 
 	private void SetParent(List<GameObject> gameObjList, Transform transform){
 		foreach (GameObject i in gameObjList){
-				i.transform.SetParent (transform);
+			i.transform.SetParent (transform);
 		}
 	}
 
