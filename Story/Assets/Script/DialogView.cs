@@ -43,7 +43,7 @@ public class DialogView : MonoBehaviour
 
 	private int baseItemCount = 10;
 
-	private int baseItemSize = 10; //标准item行数；
+	private int baseItemSize = 5; //标准item行数；
 
 	// Use this for initialization
 	void Start ()
